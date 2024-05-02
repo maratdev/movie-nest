@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import { Document, Types } from 'mongoose';
+import { MovieModel } from '../../movie/models/movie.model';
 
 @Schema({
   collection: 'users',
@@ -8,28 +9,26 @@ import { Document } from 'mongoose';
 })
 export class UserModel extends Document {
   @Prop({
-    required: true,
     lowercase: true,
     maxlength: 50,
   })
   username: string;
 
   @Prop({
-    required: true,
     lowercase: true,
     unique: true,
   })
   email: string;
 
-  @Prop({
-    required: true,
-  })
+  @Prop()
   password: string;
 
   @Prop({
     default: [],
+    type: Types.ObjectId,
+    ref: 'MovieSchema',
   })
-  favorites: string[];
+  favorites?: MovieModel[];
 
   @Prop({
     required: true,

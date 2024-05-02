@@ -6,14 +6,14 @@ import {
   HttpCode,
   Param,
   Patch,
+  Query,
   UsePipes,
   ValidationPipe,
-  Query,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { InjectModel } from '@nestjs/mongoose';
 import { UserModel } from './models/user.model';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { Auth } from '../auth/decorators/auth.decorator';
 import { User } from './decorators/user.decorator';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -33,11 +33,18 @@ export class UserController {
     return this.userService.getUserById(_id);
   }
 
+  @Get('profile/favorites')
+  @Auth()
+  getFavorites(@User('_id') _id: Types.ObjectId) {
+    return this.userService.getFavorites(_id);
+  }
+
   @Get('count')
   @Auth('admin')
   getCountUsers() {
     return this.userService.getCount();
   }
+
   @Get()
   @Auth('admin')
   getUsers(@Query('search') query?: string) {
@@ -55,6 +62,16 @@ export class UserController {
   @Auth()
   async updateProfile(@User('_id') _id: string, @Body() body: UpdateUserDto) {
     return this.userService.updateUser(_id, body);
+  }
+
+  @Patch('profile/favorites')
+  @HttpCode(200)
+  @Auth()
+  async toggleFavorite(
+    @User() user: UserModel,
+    @Body('movieId', IdValidationPipe) movieId: Types.ObjectId,
+  ) {
+    return this.userService.toggleFavorite(movieId, user);
   }
 
   @Patch(':id')
