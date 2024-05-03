@@ -3,19 +3,22 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { GenreModel } from './models/genre.model';
 import { CreateGenreDto } from './dto/create-genre.dto';
+import { MovieService } from '../movie/movie.service';
+import { IGenre } from './interfaces/genre.interfaces';
 
 @Injectable()
 export class GenreService {
   constructor(
     @InjectModel(GenreModel.name)
     private readonly genreModel: Model<GenreModel>,
+    private readonly movieService: MovieService,
   ) {}
 
   async bySlug(slug: string) {
     return this.genreModel.findOne({ slug }).exec();
   }
 
-  async searchGenre(search: string) {
+  async searchGenre(search?: string) {
     let query = {};
     if (search) {
       query = {
@@ -30,7 +33,19 @@ export class GenreService {
   }
 
   async getCollection() {
-    return this.searchGenre('');
+    const genres = await this.searchGenre();
+    return await Promise.all(
+      genres.map(async (genre) => {
+        const movies = await this.movieService.byGenres([genre._id.toString()]);
+        const result: IGenre = {
+          _id: genre._id.toString(),
+          image: movies[0].bigPoster,
+          slug: genre.slug,
+          title: genre.name,
+        };
+        return result;
+      }),
+    );
   }
 
   // ------------------------ Admin panel ------------------------/

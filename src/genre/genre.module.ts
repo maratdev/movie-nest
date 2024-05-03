@@ -3,6 +3,7 @@ import { GenreService } from './genre.service';
 import { GenreController } from './genre.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { GenreModel, GenreSchema } from './models/genre.model';
+import { MovieModule } from '../movie/movie.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { GenreModel, GenreSchema } from './models/genre.model';
         },
       },
     ]),
+    MovieModule,
   ],
   providers: [GenreService],
   controllers: [GenreController],
