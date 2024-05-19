@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { GenreModel } from './models/genre.model';
 import { CreateGenreDto } from './dto/create-genre.dto';
 import { MovieService } from '../movie/movie.service';
@@ -18,7 +18,7 @@ export class GenreService {
     return this.genreModel.findOne({ slug }).exec();
   }
 
-  async searchGenre(search?: string) {
+  async searchGenre(search?: string): Promise<GenreModel[]> {
     let query = {};
     if (search) {
       query = {
@@ -29,17 +29,17 @@ export class GenreService {
         ],
       };
     }
-    return this.genreModel.find(query).sort({ createdAt: 'desc' });
+    return this.genreModel.find(query).sort({ createdAt: 'desc' }).exec();
   }
 
-  async getCollection() {
+  async getCollection(): Promise<IGenre[]> {
     const genres = await this.searchGenre();
     return await Promise.all(
       genres.map(async (genre) => {
         const movies = await this.movieService.byGenres([genre._id.toString()]);
         const result: IGenre = {
           _id: genre._id.toString(),
-          image: movies[0].bigPoster,
+          image: movies[0]?.bigPoster,
           slug: genre.slug,
           title: genre.name,
         };
@@ -55,8 +55,14 @@ export class GenreService {
     return genre;
   }
 
-  async createGenre(body: CreateGenreDto) {
-    const genre = await this.genreModel.create(body);
+  async createGenre(): Promise<Types.ObjectId> {
+    const defaultValue: CreateGenreDto = {
+      description: '',
+      icon: '',
+      name: '',
+      slug: '',
+    };
+    const genre = await this.genreModel.create(defaultValue);
     return genre._id;
   }
 

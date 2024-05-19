@@ -47,7 +47,7 @@ export class MovieService {
     return this.movieModel.find({ actors: actorId }).exec();
   }
 
-  async byGenres(genreIds: Types.ObjectId[]) {
+  async byGenres(genreIds: Types.ObjectId[]): Promise<MovieModel[]> {
     return this.movieModel.find({ genres: { $in: genreIds } }).exec();
   }
 
@@ -61,7 +61,7 @@ export class MovieService {
 
   async getPostPopular() {
     return this.movieModel
-      .findOne({ countOpened: { $gt: 0 } })
+      .find({ countOpened: { $gt: 0 } }, { lean: false })
       .populate({ path: 'genres', model: 'GenreModel' })
       .sort({ countOpened: -1 })
       .exec();
@@ -80,8 +80,17 @@ export class MovieService {
     return movie;
   }
 
-  async createMovie(body: CreateMovieDto) {
-    const movie = await this.movieModel.create(body);
+  async createMovie(): Promise<Types.ObjectId> {
+    const defaultValue: CreateMovieDto = {
+      bigPoster: '',
+      actors: [],
+      genres: [],
+      poster: '',
+      title: '',
+      videoUrl: '',
+      slug: '',
+    };
+    const movie = await this.movieModel.create(defaultValue);
     return movie._id;
   }
 

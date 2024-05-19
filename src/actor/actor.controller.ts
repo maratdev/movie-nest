@@ -43,8 +43,8 @@ export class ActorController {
 
   @Post()
   @HttpCode(200)
-  async createActor(@Body() body: CreateActorDto) {
-    return this.actorService.createActor(body);
+  async createActor() {
+    return this.actorService.createActor();
   }
 
   @Patch(':id')

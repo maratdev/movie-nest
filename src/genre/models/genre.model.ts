@@ -8,14 +8,11 @@ import { Document } from 'mongoose';
 })
 export class GenreModel extends Document {
   @Prop({
-    lowercase: true,
     maxlength: 50,
   })
   name: string;
 
-  @Prop({
-    lowercase: true,
-  })
+  @Prop()
   description: string;
 
   @Prop()

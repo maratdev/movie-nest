@@ -33,7 +33,7 @@ export class MovieModel extends Document {
   parameters: Parameter;
 
   @Prop({ default: 4.0 })
-  rating?: number;
+  rating?: string;
 
   @Prop({
     type: Types.ObjectId,

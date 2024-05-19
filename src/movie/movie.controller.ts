@@ -59,13 +59,15 @@ export class MovieController {
     return this.movieService.updateCountOpened(slug);
   }
 
+  // ------------------ Admin ------------------ /
+
+  @Auth('admin')
   @Post()
   @HttpCode(200)
-  async createMovie(@Body() body: CreateMovieDto) {
-    return this.movieService.createMovie(body);
+  async createMovie() {
+    return this.movieService.createMovie();
   }
 
-  // ------------------ Admin ------------------ /
   @Patch(':id')
   @HttpCode(200)
   @Auth('admin')
