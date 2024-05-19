@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { ActorModel } from './models/actor.model';
 import { CreateActorDto } from './dto/create-actor.dto';
 
@@ -25,19 +25,21 @@ export class ActorService {
         ],
       };
     }
-    return this.actorModel
-      .aggregate()
-      .match(query)
-      .lookup({
-        from: 'movies',
-        foreignField: 'actors',
-        localField: '_id',
-        as: 'movies',
-      })
-      .addFields({ countMovies: { $size: '$movies' } })
-      .project({ updatedAt: 0, createdAt: 0 })
-      .sort({ createdAt: -1 })
-      .exec();
+    return this.actorModel.aggregate([
+      { $match: query },
+      { $addFields: { userId: { $toString: '$_id' } } },
+      {
+        $lookup: {
+          from: 'movies',
+          localField: 'userId',
+          foreignField: 'actors',
+          as: 'movie',
+        },
+      },
+      { $addFields: { countMovies: { $size: '$movie' } } },
+      { $project: { __v: 0, updatedAt: 0, movie: 0, userId: 0 } },
+      { $sort: { updatedAt: -1 } },
+    ]);
   }
 
   async getCollection() {
@@ -51,8 +53,14 @@ export class ActorService {
     return actor;
   }
 
-  async createActor(body: CreateActorDto) {
-    const actor = await this.actorModel.create(body);
+  async createActor(): Promise<Types.ObjectId> {
+    const defaultValue: CreateActorDto = {
+      name: '',
+      photo: '',
+      slug: '',
+      movies: [],
+    };
+    const actor = await this.actorModel.create(defaultValue);
     return actor._id;
   }
 

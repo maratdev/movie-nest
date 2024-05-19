@@ -17,5 +17,6 @@ import { ActorModel, ActorSchema } from './models/actor.model';
   ],
   providers: [ActorService],
   controllers: [ActorController],
+  exports: [ActorService],
 })
 export class ActorModule {}

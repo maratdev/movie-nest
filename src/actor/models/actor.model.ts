@@ -10,7 +10,7 @@ export class ActorModel extends Document {
   @Prop()
   name: string;
 
-  @Prop()
+  @Prop({ unique: true })
   slug: string;
 
   @Prop()

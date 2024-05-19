@@ -5,8 +5,11 @@ export class CreateActorDto {
   name: string;
 
   @IsString()
-  slug?: string;
+  slug: string;
 
   @IsOptional()
-  photo?: string;
+  photo: string;
+
+  @IsString({ each: true })
+  movies: string[];
 }
