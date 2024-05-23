@@ -58,7 +58,6 @@ export class ActorService {
       name: '',
       photo: '',
       slug: '',
-      movies: [],
     };
     const actor = await this.actorModel.create(defaultValue);
     return actor._id;

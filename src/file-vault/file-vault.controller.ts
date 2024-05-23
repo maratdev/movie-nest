@@ -9,6 +9,8 @@ import {
 import { FileVaultService } from './file-vault.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { Auth } from '../auth/decorators/auth.decorator';
+import { MFile } from './classes/mfile.class';
+
 @Controller('files')
 export class FileVaultController {
   constructor(private readonly fileVaultService: FileVaultService) {}
@@ -21,6 +23,9 @@ export class FileVaultController {
     @UploadedFile() file: Express.Multer.File,
     @Query('folder') folder?: string,
   ) {
-    return this.fileVaultService.saveFiles([file], folder);
+    const saveArray: MFile[] = [new MFile(file)];
+    if (file.mimetype.includes('image')) {
+      return this.fileVaultService.saveFiles(saveArray, folder);
+    }
   }
 }

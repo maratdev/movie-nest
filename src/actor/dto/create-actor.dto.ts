@@ -10,6 +10,4 @@ export class CreateActorDto {
   @IsOptional()
   photo: string;
 
-  @IsString({ each: true })
-  movies: string[];
 }

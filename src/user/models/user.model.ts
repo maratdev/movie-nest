@@ -10,12 +10,6 @@ import { MovieModel } from '../../movie/models/movie.model';
 export class UserModel extends Document {
   @Prop({
     lowercase: true,
-    maxlength: 50,
-  })
-  username: string;
-
-  @Prop({
-    lowercase: true,
     unique: true,
   })
   email: string;

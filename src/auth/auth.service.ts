@@ -50,7 +50,6 @@ export class AuthService {
 
     const newUser = new this.userModel({
       email: userAuth.email,
-      username: userAuth.username,
       password: await hash(userAuth.password, salt),
     });
     const addedUser = await newUser.save();
@@ -86,7 +85,6 @@ export class AuthService {
     return {
       _id: user._id,
       email: user.email,
-      username: user.username,
       role: user.role,
     };
   }
