@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
 import { GenreModel } from '../../genre/models/genre.model';
-import { ActorModel } from '../../actor/models/actor.model';
+import { DirectorModel } from '../../director/models/director.model';
 
 export class Parameter {
   @Prop()
@@ -49,9 +49,9 @@ export class MovieModel extends Document {
 
   @Prop({
     type: Types.ObjectId,
-    ref: 'ActorSchema',
+    ref: 'DirectorSchema',
   })
-  actors: ActorModel[];
+  directors: DirectorModel[];
 
   @Prop({ unique: true })
   slug: string;

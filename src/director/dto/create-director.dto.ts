@@ -1,6 +1,6 @@
 import { IsOptional, IsString } from 'class-validator';
 
-export class CreateActorDto {
+export class CreateDirectorDto {
   @IsString()
   name: string;
 
@@ -9,7 +9,4 @@ export class CreateActorDto {
 
   @IsOptional()
   photo: string;
-
-  @IsString({ each: true })
-  movies: string[];
 }

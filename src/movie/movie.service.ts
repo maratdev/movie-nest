@@ -14,8 +14,12 @@ export class MovieService {
   async bySlug(slug: string) {
     return this.movieModel
       .findOne({ slug })
-      .populate('actors genres')
-      .populate({ path: 'actors', select: 'name slug', model: 'ActorModel' })
+      .populate('directors genres')
+      .populate({
+        path: 'directors',
+        select: 'name slug',
+        model: 'DirectorModel',
+      })
       .populate({ path: 'genres', model: 'GenreModel' })
       .exec();
   }
@@ -30,7 +34,11 @@ export class MovieService {
     return this.movieModel
       .find(query)
       .sort({ createdAt: 'desc' })
-      .populate({ path: 'actors', model: 'ActorModel', select: 'name slug' })
+      .populate({
+        path: 'directors',
+        model: 'DirectorModel',
+        select: 'name slug',
+      })
       .populate({
         path: 'genres',
         model: 'GenreModel',
@@ -39,12 +47,8 @@ export class MovieService {
       .exec();
   }
 
-  async getCollection() {
-    return this.searchMovie('');
-  }
-
-  async byActor(actorId: Types.ObjectId) {
-    return this.movieModel.find({ actors: actorId }).exec();
+  async byDirector(directorId: Types.ObjectId) {
+    return this.movieModel.find({ directors: directorId }).exec();
   }
 
   async byGenres(genreIds: Types.ObjectId[]): Promise<MovieModel[]> {
@@ -83,7 +87,7 @@ export class MovieService {
   async createMovie(): Promise<Types.ObjectId> {
     const defaultValue: CreateMovieDto = {
       bigPoster: '',
-      actors: [],
+      directors: [],
       genres: [],
       poster: '',
       title: '',

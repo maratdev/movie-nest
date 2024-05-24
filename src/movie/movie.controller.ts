@@ -27,9 +27,11 @@ export class MovieController {
     return this.movieService.bySlug(slug);
   }
 
-  @Get('actor/:actorId')
-  byActorId(@Param('actorId', IdValidationPipe) actorId: Types.ObjectId) {
-    return this.movieService.byActor(actorId);
+  @Get('director/:directorId')
+  byDirectorId(
+    @Param('directorId', IdValidationPipe) directorId: Types.ObjectId,
+  ) {
+    return this.movieService.byDirector(directorId);
   }
 
   @Post('genre')

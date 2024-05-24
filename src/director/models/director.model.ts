@@ -2,11 +2,11 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 
 @Schema({
-  collection: 'actors',
+  collection: 'directors',
   versionKey: false,
   timestamps: true,
 })
-export class ActorModel extends Document {
+export class DirectorModel extends Document {
   @Prop()
   name: string;
 
@@ -17,4 +17,4 @@ export class ActorModel extends Document {
   photo: string;
 }
 
-export const ActorSchema = SchemaFactory.createForClass(ActorModel);
+export const DirectorSchema = SchemaFactory.createForClass(DirectorModel);

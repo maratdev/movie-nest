@@ -36,7 +36,7 @@ export class CreateMovieDto {
 
   @IsArray()
   @IsString({ each: true })
-  actors: string[];
+  directors: string[];
 
   @IsString()
   videoUrl: string;
