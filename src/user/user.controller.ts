@@ -21,6 +21,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { IdValidationPipe } from './pipes/id.validation.pipes';
 import { MongoExceptionFilter } from '../config/filter/mongo-exception.filter';
 import { HttpExceptionFilter } from '../config/filter/http-exception.filter';
+import { ApiResponse, ApiTags } from '@nestjs/swagger';
 
 @UsePipes(
   new ValidationPipe({
@@ -29,6 +30,10 @@ import { HttpExceptionFilter } from '../config/filter/http-exception.filter';
 )
 @UseFilters(MongoExceptionFilter)
 @UseFilters(new HttpExceptionFilter())
+@ApiTags('Users')
+@ApiResponse({
+  description: 'The user records',
+})
 @Controller('user')
 export class UserController {
   constructor(

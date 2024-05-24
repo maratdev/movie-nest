@@ -8,6 +8,7 @@ import {
   Patch,
   Post,
   Query,
+  UseFilters,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
@@ -15,7 +16,13 @@ import { Auth } from '../auth/decorators/auth.decorator';
 import { IdValidationPipe } from '../user/pipes/id.validation.pipes';
 import { GenreService } from './genre.service';
 import { CreateGenreDto } from './dto/create-genre.dto';
+import { MongoExceptionFilter } from '../config/filter/mongo-exception.filter';
+import { HttpExceptionFilter } from '../config/filter/http-exception.filter';
+import { ApiTags } from '@nestjs/swagger';
 
+@UseFilters(MongoExceptionFilter)
+@UseFilters(new HttpExceptionFilter())
+@ApiTags('Genres')
 @UsePipes(new ValidationPipe())
 @Controller('genre')
 export class GenreController {
