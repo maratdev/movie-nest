@@ -4,13 +4,20 @@ import {
   HttpCode,
   HttpStatus,
   Post,
+  UseFilters,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthDto } from './dto/auth.dto';
 import { TokenDto } from './dto/token.dto';
+import { MongoExceptionFilter } from '../config/filter/mongo-exception.filter';
+import { HttpExceptionFilter } from '../config/filter/http-exception.filter';
+import { ApiTags } from '@nestjs/swagger';
 
+@UseFilters(MongoExceptionFilter)
+@UseFilters(new HttpExceptionFilter())
+@ApiTags('Auth')
 @UsePipes(new ValidationPipe())
 @Controller('auth')
 export class AuthController {

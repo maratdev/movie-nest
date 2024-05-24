@@ -8,6 +8,7 @@ import {
   Patch,
   Post,
   Query,
+  UseFilters,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
@@ -15,7 +16,13 @@ import { IdValidationPipe } from '../user/pipes/id.validation.pipes';
 import { Auth } from '../auth/decorators/auth.decorator';
 import { DirectorService } from './director.service';
 import { CreateDirectorDto } from './dto/create-director.dto';
+import { MongoExceptionFilter } from '../config/filter/mongo-exception.filter';
+import { HttpExceptionFilter } from '../config/filter/http-exception.filter';
+import { ApiTags } from '@nestjs/swagger';
 
+@UseFilters(MongoExceptionFilter)
+@UseFilters(new HttpExceptionFilter())
+@ApiTags('Directors')
 @UsePipes(new ValidationPipe())
 @Controller('director')
 export class DirectorController {

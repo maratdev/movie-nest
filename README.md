@@ -1,73 +1,57 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+#  Бэкенд Movie Dom
+_***Backend часть сервиса, с помощью которого пользователь может делиться фото с другими.***_
+[Live demo](https://movie-dom.store/)
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+## Технологии:
+<a href="https://nestjs.com/" target="_blank" rel="noreferrer"><img src="https://img.shields.io/badge/-Nestjs-090909?style=for-the-badge&logo=Nestjs&logoColor=ea2851" alt="Nest.js" /></a>
+<a href="https://nodejs.org/ru" target="_blank" rel="noreferrer"><img src="https://img.shields.io/badge/-Node.js-090909?style=for-the-badge&logo=Node.js" alt="Node.js" /></a>
+<a href="https://www.mongodb.com/" target="_blank" rel="noreferrer"><img src="https://img.shields.io/badge/-MongoDB-090909?style=for-the-badge&logo=MongoDB" alt="MongoDB" /></a>
+<a href="https://www.postman.com/" target="_blank" rel="noreferrer"><img src="https://img.shields.io/badge/-Postman-090909?style=for-the-badge&logo=Postman" alt="Postman" /></a>
+<a href="https://eslint.org/" target="_blank" rel="noreferrer"><img src="https://img.shields.io/badge/-Eslint-090909?style=for-the-badge&logo=Eslint&logoColor=blue" alt="Eslint" /></a>
+<a href="https://jwt.io/" target="_blank" rel="noreferrer"><img src="https://img.shields.io/badge/-Jsonwebtokens-090909?style=for-the-badge&logo=json-web-tokens&logoColor=d63aff" alt="jwt" /></a>
+<a href="https://swagger.io/" target="_blank" rel="noreferrer"><img src="https://img.shields.io/badge/-Swagger-090909?style=for-the-badge&logo=swagger" alt="swagger" /></a>
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+### Функционал:
 
-## Description
++ Регистрация  `POST: /register`
++ Авторизация `POST: /login`
++ Обновление данных пользователя `PATCH: /users`
++ Загрузка файлов `POST: /files`
++ Поиск списка пользователей по email `GET: /users&search=user@email.ru`
++ Получение пользователя по ID `GET: /users/:id`
++ Получение колличество зарегистрированных пользователей`GET: /users/count`
++ Получение списка всех фильмов `GET: /movie`
++ Создание фильма `POST: /movie`
++ Создание жанра фильма `POST: /genre`
++ Создание пользователя `POST: /user`
++ Создание актера `POST: /user`
++ Центральная обработка ошибок
++ Валидация входящих данных
++ Агрегация данных с помощью [Mongoose](https://mongoosejs.com/)
++ Роли пользователей
++ Защита API авторизацией
++ Админка
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+  [Полный список ендпоинтов](https://movie-dom.store/swagger)
+------
+### О чём проект?
 
-## Installation
+*Данное серверное приложение предназначено для храниния и обмена файлами с вэб-приложением [Movie Dom](https://github.com/maratdev/next-movie).*
+
+* Возможность зарегестрироваться и залогиниться с помощью почты и пароля. Токен для авторизации хранится 7 дней.
+* Можно создавать фильмы. У каждой каточки есть есть поля name, poster (ссылка на картинку), actors (id актера), countOpened (колл. открытия карточки) и массив genres ( id жанров).
+* Фильмы можно создавать и удалять, а также ставить оценку и добавлять в избранное.
+* Поля валидируются.
+------
+
+### Запуск проекта
+
+`npm run start` — запускает сервер   
+`npm run start:dev` — запускает сервер с hot-reload
+
+
+Репозиторий:
 
 ```bash
-$ npm install
+git clone https://github.com/maratdev/movie-nest
 ```
-
-## Running the app
-
-```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
-```
-
-## Test
-
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
-```
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](LICENSE).

@@ -8,6 +8,7 @@ import {
   Patch,
   Post,
   Query,
+  UseFilters,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
@@ -16,8 +17,14 @@ import { Auth } from '../auth/decorators/auth.decorator';
 import { MovieService } from './movie.service';
 import { CreateMovieDto } from './dto/create-movie.dto';
 import { Types } from 'mongoose';
+import { MongoExceptionFilter } from '../config/filter/mongo-exception.filter';
+import { HttpExceptionFilter } from '../config/filter/http-exception.filter';
+import { ApiTags } from '@nestjs/swagger';
 
 @UsePipes(new ValidationPipe())
+@UseFilters(MongoExceptionFilter)
+@UseFilters(new HttpExceptionFilter())
+@ApiTags('Movies')
 @Controller('movie')
 export class MovieController {
   constructor(private readonly movieService: MovieService) {}
