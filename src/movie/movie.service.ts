@@ -47,10 +47,6 @@ export class MovieService {
       .exec();
   }
 
-  async getCollection() {
-    return this.searchMovie('');
-  }
-
   async byDirector(directorId: Types.ObjectId) {
     return this.movieModel.find({ directors: directorId }).exec();
   }
