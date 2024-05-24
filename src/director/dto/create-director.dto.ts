@@ -1,6 +1,6 @@
 import { IsOptional, IsString } from 'class-validator';
 
-export class CreateActorDto {
+export class CreateDirectorDto {
   @IsString()
   name: string;
 

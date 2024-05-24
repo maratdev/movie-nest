@@ -74,8 +74,8 @@ export class UserService {
         path: 'favorites',
         model: 'MovieModel',
         populate: {
-          path: 'actors',
-          model: 'ActorModel',
+          path: 'directors',
+          model: 'DirectorModel',
         },
       })
       .populate({

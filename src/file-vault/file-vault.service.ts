@@ -42,7 +42,7 @@ export class FileVaultService {
           throw new InternalServerErrorException('Не удалось сохранить файл');
         }
         return {
-          url: `${folder}/${this.dateFolder}/${file.originalname}`,
+          url: `/${this.directoryPath}/${folder}/${this.dateFolder}/${file.originalname}`,
           name: file.originalname,
         };
       }),
