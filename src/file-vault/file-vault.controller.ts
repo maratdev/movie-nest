@@ -9,6 +9,7 @@ import {
 import { FileVaultService } from './file-vault.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { Auth } from '../auth/decorators/auth.decorator';
+import { IFileVault } from './interfaces/file-vault.interface';
 import { MFile } from './classes/mfile.class';
 
 @Controller('files')
@@ -20,12 +21,11 @@ export class FileVaultController {
   @Auth('admin')
   @UseInterceptors(FileInterceptor('file'))
   async upload(
-    @UploadedFile() file: Express.Multer.File,
+    @UploadedFile() files: Express.Multer.File,
     @Query('folder') folder?: string,
-  ) {
-    const saveArray: MFile[] = [new MFile(file)];
-    if (file.mimetype.includes('image')) {
-      return this.fileVaultService.saveFiles(saveArray, folder);
-    }
+  ): Promise<IFileVault[]> {
+    const saveArray: MFile[] = [new MFile(files)];
+    const newFiles = await this.fileVaultService.filterFiles(saveArray);
+    return this.fileVaultService.saveFiles(newFiles, folder);
   }
 }
