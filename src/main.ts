@@ -16,8 +16,13 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('swagger', app, document);
   const port = configService.get('PORT');
+  const originDomain = configService.get('ORIGIN_DOMAIN');
   app.setGlobalPrefix('api');
-  app.enableCors();
+  app.enableCors({
+    origin: [originDomain, 'https://movie-dom.ru'],
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+    credentials: true,
+  });
   await app.listen(port);
   Logger.log(`🚀 Application is running on: http://localhost:${port}`);
 }
