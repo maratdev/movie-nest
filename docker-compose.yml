@@ -1,0 +1,16 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: movie-nest-app
+    restart: unless-stopped
+    env_file:
+      - .env
+    ports:
+      - '${PORT:-4000}:${PORT:-4000}'
+    volumes:
+      - uploads:/app/uploads
+
+volumes:
+  uploads:
