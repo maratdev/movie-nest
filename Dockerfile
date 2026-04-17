@@ -22,6 +22,7 @@ COPY package*.json ./
 RUN npm ci --omit=dev && npm rebuild sharp
 
 COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/uploads ./uploads
 
 RUN mkdir -p /app/uploads
 
